@@ -7,9 +7,13 @@
 int main()
 {
     DIR *dir = opendir(".");
-    struct dirent *fileinfo;
-    while( fileinfo = readdir(dir) ) {
-        printf("%s\n", fileinfo->d_name);
+    struct dirent *file;
+    while( file = readdir(dir) ) {
+        if(file->d_type == DT_DIR)
+            printf("[DIR]\t");
+        else if(file->d_type == DT_REG)
+            printf("[FILE]\t");
+        printf("%s\n", file->d_name);
     }
     return 0;
 }
