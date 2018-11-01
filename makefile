@@ -1,8 +1,11 @@
-all: .o dirinfo.o
+all: dirinfo.o
 	gcc -o dirinfo dirinfo.o
 
-dirinfo.o: dirinfo.c dirinfo.h
+dirinfo.o: dirinfo.c
 	gcc -c dirinfo.c
 
 clean:
 	rm dirinfo *.o
+
+run:
+	./dirinfo
