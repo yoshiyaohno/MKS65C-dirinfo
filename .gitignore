@@ -1,3 +1,9 @@
+# Swap files
+*.swp
+
+# the output
+dirinfo
+
 # Prerequisites
 *.d
 
