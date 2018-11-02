@@ -3,17 +3,27 @@
 #include <dirent.h>
 #include <sys/types.h>
 
+char perms[] = {
+    "---", "--x", "-w-", "-wx",
+    "r--", "r-x", "rw-", "rwx",
+};
 
 int main()
 {
+    int n_files = 0;
+    int n_dirs  = 0;
     DIR *dir = opendir(".");
-    struct dirent *file;
     while( file = readdir(dir) ) {
         if(file->d_type == DT_DIR)
-            printf("[DIR]\t");
+            ++n_dirs;
         else if(file->d_type == DT_REG)
-            printf("[FILE]\t");
-        printf("%s\n", file->d_name);
+            ++n_files;
     }
+    closedir(dir);
+
+    dir = opendir(".");
+    struct dirent *files[ n_files ];
+    struct dirent *dirs[ n_dirs ];
+
     return 0;
 }
