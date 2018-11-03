@@ -3,11 +3,13 @@
 #include <dirent.h>
 #include <sys/types.h>
 #include <string.h>
+#include <sys/stat.h>
 
 char * perms[8] = {
   "---", "--x", "-w-", "-wx",
   "r--", "r-x", "rw-", "rwx",
 };
+
 
 int main()
 {
@@ -71,11 +73,24 @@ int main()
       ++n_files;
     }
   }
-  
+
+  struct stat * buff = malloc(sizeof(struct stat));
+
+  char * name;
+
+  printf("THE FILES ARE:\n\n");
   
   for(i = 0; i < n_files; i++){
-    printf("%s\n", files[i] -> d_name);
+    name = files[i] -> d_name;
+    stat(name, buff);
+    printf("%s  Size : %ld\n", name, buff -> st_size);
   }
+
+  printf("\nTHE DIRECTORIES ARE:\n\n");
   
+  for(i = 0; i < n_dirs; i++){
+    name = dirs[i] -> d_name;
+    printf("%s\n", name);
+  }
   return 0;
 }
