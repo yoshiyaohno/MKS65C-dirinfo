@@ -9,25 +9,6 @@ char * perms[8] = {
   "r--", "r-x", "rw-", "rwx",
 };
 
-struct dirent * inserter(struct dirent * list, struct dirent * file, int size){
-  struct dirent * temp;
-  int i = 0;
-  while(i <= size){
-    if(i < size){
-      if(strcmp(file -> d_name, list[i] -> d_name) < 0){
-	temp = list[i];
-	list[i] = file;
-	file = temp;
-      }
-    }else{
-      list[i] = file;
-    }
-    i++;
-  }
-  return list;
-}
-
-
 int main()
 {
   int n_files = 0;
@@ -51,14 +32,42 @@ int main()
   n_dirs = 0;
   n_files = 0;
 
+  struct dirent * temp;
+  int i;
   
   while( file = readdir(dir) ) {
     if(file->d_type == DT_DIR){
-      dirs = insert(dirs, file, n_dirs);
+      i = 0;
+      while(i <= n_dirs){
+	if(i < n_dirs){
+	  if(strcmp(file -> d_name, dirs[i] -> d_name) < 0){
+	    temp = dirs[i];
+	    dirs[i] = file;
+	    file = temp;
+	  }
+	  i++;
+	}else{
+	  dirs[i] = file;
+	  i++;
+	}
+      }
       ++n_dirs;
     }
     else if(file->d_type == DT_REG){
-      files = insert(files, file, n_files);
+      i = 0;
+      while(i <= n_files){
+        if(i < n_files){
+          if(strcmp(file -> d_name, files[i] -> d_name) < 0){
+            temp = files[i];
+            files[i] = file;
+            file = temp;
+          }
+          i++;
+        }else{
+          files[i] = file;
+          i++;
+        }
+      }
       ++n_files;
     }
   }
