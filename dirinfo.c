@@ -5,7 +5,7 @@
 #include <string.h>
 #include <sys/stat.h>
 
-char * perms[8] = {
+char * perm[8] = {
   "---", "--x", "-w-", "-wx",
   "r--", "r-x", "rw-", "rwx",
 };
@@ -77,13 +77,19 @@ int main()
   struct stat * buff = malloc(sizeof(struct stat));
 
   char * name;
-
+  char permish[9];
+  int mode;
   printf("THE FILES ARE:\n\n");
   
   for(i = 0; i < n_files; i++){
     name = files[i] -> d_name;
     stat(name, buff);
-    printf("%s  Size : %ld\n", name, buff -> st_size);
+    mode = buff -> st_mode % 512;
+    strcpy(permish, perm[mode / 64]);
+    strcat(permish, perm[(mode / 8) % 8]);
+    strcat(permish, perm[mode % 8]);
+    
+    printf("%s %s %ld\n",permish, name, buff -> st_size);
   }
 
   printf("\nTHE DIRECTORIES ARE:\n\n");
