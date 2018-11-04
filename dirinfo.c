@@ -11,6 +11,31 @@ char * perm[8] = {
 };
 
 
+int printDirec(char * path, char * tab, struct stat * reuse){
+  struct dirent * file;
+  DIR * dir = opendir(path);
+  int sum = 0;
+  char temp[256];
+  while(file = readdir(dir)){
+    if(file -> d_type == DT_REG){      
+      stat(path, reuse);
+      sum += reuse -> st_size;
+      //printf("%s%s\n", tab, file -> d_name);
+    }else if(file -> d_type == DT_DIR){
+      if(strcmp(file -> d_name, ".") && strcmp(file -> d_name, "..")){
+        printf("%s%s\n", tab, file -> d_name);
+        strcat(path, "/");
+        strcat(path, file -> d_name);
+        strcat(temp, tab);
+	strcat(temp, "    ");
+        sum += printDirec(path, temp, reuse);
+      }
+    }
+  }
+  return sum;
+}
+
+
 int main()
 {
   int n_files = 0;
@@ -93,10 +118,17 @@ int main()
   }
 
   printf("\nTHE DIRECTORIES ARE:\n\n");
-  
+
+  strcpy(name, "");
+  char path[256];
+  strcpy(path, ".");
+  printDirec(path, name, buff);
+
+  /*
   for(i = 0; i < n_dirs; i++){
     name = dirs[i] -> d_name;
     printf("%s\n", name);
   }
+  */
   return 0;
 }
