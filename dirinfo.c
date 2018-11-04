@@ -93,6 +93,7 @@ int printDirec(char * path, char * tab, struct stat * reuse){
     sum += reuse -> st_size;
   }
 
+  printf("\n");
   
   for(i = 0; i < n_dirs; i++){
     f_name = dirs[i] -> d_name;
@@ -104,7 +105,7 @@ int printDirec(char * path, char * tab, struct stat * reuse){
       strcat(temp1, "    ");
       s = printDirec(temp2, temp1, reuse);
       sum += s;
-      printf("%s%s %d\n", tab, f_name, s);
+      printf("%s-%s (size: %d)\n", tab, f_name, s);
 
     }
   }
@@ -213,7 +214,7 @@ int main()
     }
   */
   
-  printf("Total Size is : %d", printDirec(path, tab, buff));
+  printf("\n\nTOTAL SIZE IS: %d\n\n", printDirec(path, tab, buff));
   
   return 0;
 }
