@@ -16,19 +16,21 @@ int printDirec(char * path, char * tab, struct stat * reuse){
   DIR * dir = opendir(path);
   int sum = 0;
   char temp[256];
+  char temp2[256];
+  
   while(file = readdir(dir)){
     if(file -> d_type == DT_REG){      
       stat(path, reuse);
       sum += reuse -> st_size;
-      //printf("%s%s\n", tab, file -> d_name);
     }else if(file -> d_type == DT_DIR){
       if(strcmp(file -> d_name, ".") && strcmp(file -> d_name, "..")){
         printf("%s%s\n", tab, file -> d_name);
-        strcat(path, "/");
-        strcat(path, file -> d_name);
-        strcat(temp, tab);
+	strcpy(temp2, path);
+	strcat(temp2, "/");
+        strcat(temp2, file -> d_name);
+	strcpy(temp, tab);
 	strcat(temp, "    ");
-        sum += printDirec(path, temp, reuse);
+        sum += printDirec(temp2, temp, reuse);
       }
     }
   }
