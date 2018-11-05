@@ -77,6 +77,27 @@ int printDirec(char *path, char *tab, struct stat *reuse){
     int mode;
     int s;
     
+    printf("##DIRECTORIES##\n");
+    for(i = 0; i < n_dirs; i++){
+      strcpy(f_name, dirs[i] -> d_name);
+      if(strcmp(f_name, ".") && strcmp(f_name, "..")) {
+        strcpy(temp2, path);
+        strcat(temp2, "/");
+        strcat(temp2, f_name);
+        strcpy(temp1, tab);
+        strcat(temp1, "    ");
+  
+        printf("%s[%s]\n", tab, f_name);
+        //printf("%s-%s\n", tab, f_name);
+  
+        //s = printDirec(temp2, temp1, reuse);
+        //sum += s;
+        //printf("%s    Total size %d\n", tab, s);
+  
+      }
+    }
+
+    printf("\n##FILES########\n");
     for(i = 0; i < n_files; i++){
         strcpy(f_name, path);
         strcat(f_name, "/"); 
@@ -90,37 +111,27 @@ int printDirec(char *path, char *tab, struct stat *reuse){
         sum += reuse -> st_size;
     }
     
-    for(i = 0; i < n_dirs; i++){
-      strcpy(f_name, dirs[i] -> d_name);
-      if(strcmp(f_name, ".") && strcmp(f_name, "..") && strcmp(f_name, ".git")){
-        strcpy(temp2, path);
-        strcat(temp2, "/");
-        strcat(temp2, f_name);
-        strcpy(temp1, tab);
-        strcat(temp1, "    ");
-  
-        printf("%s[%s]\n", tab, f_name);
-        //printf("%s-%s\n", tab, f_name);
-  
-        s = printDirec(temp2, temp1, reuse);
-        sum += s;
-        printf("%s    Total size %d\n", tab, s);
-  
-      }
-    }
     return sum;
 }
 
 
-int main()
+int main( int argc, char *argv[] )
 {
-  struct stat * buff = malloc(sizeof(struct stat));
-  char tab[256];
-  strcpy(tab, "");
-  char path[256];
-  strcpy(path, ".");
-   
-  printf("\n\nTOTAL SIZE IS: %d\n\n", printDirec(path, tab, buff));
-  
-  return 0;
+    struct stat * buff = malloc(sizeof(struct stat));
+    char tab[256];
+    strcpy(tab, "");
+    char path[256];
+    if( argc > 1 ) {
+        printf("OOF\n");
+        strcpy(path, argv[1]);
+    }
+    else {
+        printf("Directory:\n>>");
+        fgets(path, 256, stdin);
+        printf("path: %s\n", path);
+    }
+
+    printf("\n\nTOTAL SIZE IS: %d\n\n", printDirec(path, tab, buff));
+    
+    return 0;
 }
