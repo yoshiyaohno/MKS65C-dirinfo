@@ -8,7 +8,7 @@ clean:
 	rm dirinfo_debug dirinfo *.o
 
 run:
-	./dirinfo
+	./dirinfo $(args)
 
 bug: 
 	gcc -g -c dirinfo.c
