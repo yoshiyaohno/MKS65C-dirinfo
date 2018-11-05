@@ -30,9 +30,9 @@ char *perm[8] = {
 };
 
 
-int printDirec(char * path, char * tab, struct stat * reuse){
-    struct dirent * file;
-    DIR * dir = opendir(path);
+int printDirec(char *path, char *tab, struct stat *reuse){
+    struct dirent *file;
+    DIR *dir = opendir(path);
     int sum = 0;
     char temp1[256];
     char temp2[256];
@@ -58,7 +58,7 @@ int printDirec(char * path, char * tab, struct stat * reuse){
     n_dirs = 0;
     n_files = 0;
     
-    struct dirent * temp;
+    struct dirent *temp;
     int i;
     
     while( file = readdir(dir) ) {
