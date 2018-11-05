@@ -5,7 +5,14 @@ dirinfo.o: dirinfo.c
 	gcc -c dirinfo.c
 
 clean:
-	rm dirinfo *.o
+	rm dirinfo_debug dirinfo *.o
 
 run:
 	./dirinfo
+
+bug: 
+	gcc -g -c dirinfo.c
+	gcc -o dirinfo_debug dirinfo.o
+
+debug:
+	gdb ./dirinfo_debug
