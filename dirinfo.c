@@ -78,16 +78,16 @@ int printDirec(char *path, char *tab, struct stat *reuse){
     int s;
     
     for(i = 0; i < n_files; i++){
-      strcpy(f_name, path);
-      strcat(f_name, "/"); 
-      strcat(f_name, files[i] -> d_name);
-      stat(f_name, reuse);
-      mode = reuse -> st_mode % 512;
-      strcpy(permish, perm[mode / 64]);
-      strcat(permish, perm[(mode / 8) % 8]);
-      strcat(permish, perm[mode % 8]);
-      printf("%s%s %s %ld\n",tab, permish, files[i] -> d_name, reuse -> st_size);
-      sum += reuse -> st_size;
+        strcpy(f_name, path);
+        strcat(f_name, "/"); 
+        strcat(f_name, files[i] -> d_name);
+        stat(f_name, reuse);
+        mode = reuse -> st_mode % 512;
+        strcpy(permish, perm[mode / 64]);
+        strcat(permish, perm[(mode / 8) % 8]);
+        strcat(permish, perm[mode % 8]);
+        printf("%s%s\t%ld\t%s\n",tab, permish, reuse->st_size, files[i]->d_name);
+        sum += reuse -> st_size;
     }
     
     for(i = 0; i < n_dirs; i++){
@@ -99,12 +99,12 @@ int printDirec(char *path, char *tab, struct stat *reuse){
         strcpy(temp1, tab);
         strcat(temp1, "    ");
   
-        printf("%s-%s\n", tab, f_name);
+        printf("%s[%s]\n", tab, f_name);
+        //printf("%s-%s\n", tab, f_name);
   
         s = printDirec(temp2, temp1, reuse);
         sum += s;
-        
-        printf("%s (%d)\n", tab, s);
+        printf("%s    Total size %d\n", tab, s);
   
       }
     }
