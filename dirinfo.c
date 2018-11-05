@@ -5,24 +5,6 @@
 #include <string.h>
 #include <sys/stat.h>
 
-        // if(file->d_type == DT_DIR){
-        //   i = 0;
-        //   while (i <= n_dirs) {
-        //     if(i < n_dirs){
-        //       if(strcmp(file -> d_name, dirs[i] -> d_name) < 0){
-        //         temp = dirs[i];
-        //         dirs[i] = file;
-        //         file = temp;
-        //       }
-        //       i++;
-        //     }else{
-        //       dirs[i] = file;
-        //       i++;
-        //     }
-        //   }
-        //   ++n_dirs;
-        // }
-
 void insert( struct dirent **list, int size, struct dirent *new )
 {
     int i = 0;
@@ -68,10 +50,10 @@ int printDirec(char * path, char * tab, struct stat * reuse){
   
     dir = opendir(path);
     
-    //struct dirent *files[ n_files ];
-    //struct dirent *dirs[ n_dirs ];
-    struct dirent **files = malloc( sizeof(void*) * n_files );
-    struct dirent **dirs = malloc( sizeof(void*) * n_dirs );
+    struct dirent *files[ n_files ];
+    struct dirent *dirs[ n_dirs ];
+    //struct dirent **files = malloc( sizeof(void*) * n_files );
+    //struct dirent **dirs = malloc( sizeof(void*) * n_dirs );
     
     n_dirs = 0;
     n_files = 0;
