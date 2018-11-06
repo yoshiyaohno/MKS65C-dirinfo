@@ -38,10 +38,10 @@ int printDirec(char *path, char *tab, struct stat *reuse){
 
     while(dir == 0){
         printf("\n%s\nPlease enter a valid path:\n>>", strerror(errno));
-	if(errno == 24){
-	  printf("\n\n---You called this on a directory with too many sub directories to recursively open, please run the program again\n\n\n");
-	  exit(1);
-	}
+	//if(errno == 24){
+	//  printf("\n\n---You called this on a directory with too many sub directories to recursively open, please run the program again\n\n\n");
+	//  exit(1);
+	//}
 	fgets(path, 256, stdin);
 	path[strlen(path) - 1] = 0;
 	dir = opendir(path);
