@@ -86,6 +86,8 @@ int printDirec(char *path, char *tab, struct stat *reuse){
             ++n_files;
         }
     }
+
+    //closedir(dir);
     
     char f_name[256];
     char permish[9];
@@ -125,7 +127,7 @@ int printDirec(char *path, char *tab, struct stat *reuse){
         printf("%s%s\t%ld\t%s\n",tab, permish, reuse->st_size, files[i]->d_name);
         sum += reuse -> st_size;
     }
-    
+    closedir(dir);
     return sum;
 }
 
