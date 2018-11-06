@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <errno.h>
 
 void insert( struct dirent **list, int size, struct dirent *new )
 {
@@ -32,7 +33,17 @@ char *perm[8] = {
 
 int printDirec(char *path, char *tab, struct stat *reuse){
     struct dirent *file;
+
     DIR *dir = opendir(path);
+
+    while(dir == 0){
+        printf("\n%s\nPlease enter a valid path:\n>>", strerror(errno));
+	fgets(path, 256, stdin);
+	path[strlen(path) - 1] = 0;
+	dir = opendir(path);
+    }
+
+    
     int sum = 0;
     char temp1[256];
     char temp2[256];
@@ -77,7 +88,7 @@ int printDirec(char *path, char *tab, struct stat *reuse){
     int mode;
     int s;
     
-    printf("##DIRECTORIES##\n");
+    printf("%s##DIRECTORIES##\n", tab);
     for(i = 0; i < n_dirs; i++){
       strcpy(f_name, dirs[i] -> d_name);
       if(strcmp(f_name, ".") && strcmp(f_name, "..")) {
@@ -97,7 +108,7 @@ int printDirec(char *path, char *tab, struct stat *reuse){
       }
     }
 
-    printf("\n##FILES########\n");
+    printf("\n%s##FILES########\n", tab);
     for(i = 0; i < n_files; i++){
         strcpy(f_name, path);
         strcat(f_name, "/"); 
@@ -121,14 +132,18 @@ int main( int argc, char *argv[] )
     char tab[256];
     strcpy(tab, "");
     char path[256];
-    if( argc > 1 ) {
-        printf("OOF\n");
+
+    strcpy(path, ".");
+    
+    if( argc == 2 ) {
+        //printf("OOF\n");
         strcpy(path, argv[1]);
     }
-    else {
-        printf("Directory:\n>>");
-        fgets(path, 256, stdin);
-        printf("path: %s\n", path);
+    else{
+        printf("Please enter a valid path to a directory:\n>>");
+	fgets(path, 256, stdin);
+	path[strlen(path) - 1] = 0;
+        //printf("path: '%s'\n", path);
     }
 
     printf("\n\nTOTAL SIZE IS: %d\n\n", printDirec(path, tab, buff));
